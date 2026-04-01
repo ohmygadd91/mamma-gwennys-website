@@ -1,0 +1,244 @@
+---
+const testimonials = [
+  {
+    quote: "The jerk seasoning is absolutely incredible — it tastes just like what my grandmother used to make back home. Truly authentic Caribbean flavour!",
+    author: "Michelle T.",
+    rating: 5,
+  },
+  {
+    quote: "I've tried every seasoning brand out there and nothing comes close to Mamma Gwenny's. The all-purpose blend is now a staple in my kitchen.",
+    author: "David O.",
+    rating: 5,
+  },
+  {
+    quote: "Fast delivery to the Netherlands and the fish seasoning transformed my Friday night dinners. My family can't get enough!",
+    author: "Sandra K.",
+    rating: 5,
+  },
+  {
+    quote: "Beautiful packaging and even better taste. The goat seasoning made the best curry goat I've ever cooked. Will be ordering again!",
+    author: "James R.",
+    rating: 5,
+  },
+];
+
+function stars(count: number) {
+  return '★'.repeat(count) + '☆'.repeat(5 - count);
+}
+---
+
+<section class="testimonials section">
+  <div class="container">
+    <h2 class="testimonials__heading text-center">What Our Customers Say</h2>
+    <p class="testimonials__rating text-center">
+      <span class="testimonials__stars">{stars(5)}</span>
+      <span>Rated 5/5 by our customers</span>
+    </p>
+
+    <testimonial-carousel class="testimonials__carousel">
+      <div class="testimonials__track">
+        {testimonials.map((t, i) => (
+          <blockquote class={`testimonial ${i === 0 ? 'is-active' : ''}`}>
+            <span class="testimonial__quote-mark">"</span>
+            <p class="testimonial__text">{t.quote}</p>
+            <footer class="testimonial__footer">
+              <span class="testimonial__stars">{stars(t.rating)}</span>
+              <cite class="testimonial__author">— {t.author}</cite>
+            </footer>
+          </blockquote>
+        ))}
+      </div>
+
+      <div class="testimonials__dots">
+        {testimonials.map((_, i) => (
+          <button
+            class={`testimonials__dot ${i === 0 ? 'is-active' : ''}`}
+            aria-label={`Show testimonial ${i + 1}`}
+            data-index={i}
+          />
+        ))}
+      </div>
+    </testimonial-carousel>
+  </div>
+</section>
+
+<script>
+  class TestimonialCarouselElement extends HTMLElement {
+    private current = 0;
+    private items: HTMLElement[] = [];
+    private dots: HTMLElement[] = [];
+    private interval: ReturnType<typeof setInterval> | null = null;
+
+    connectedCallback() {
+      this.items = Array.from(this.querySelectorAll('.testimonial'));
+      this.dots = Array.from(this.querySelectorAll('.testimonials__dot'));
+
+      this.dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const index = Number(dot.dataset.index);
+          this.goTo(index);
+          this.resetAutoPlay();
+        });
+      });
+
+      this.startAutoPlay();
+    }
+
+    goTo(index: number) {
+      this.items[this.current].classList.remove('is-active');
+      this.dots[this.current].classList.remove('is-active');
+      this.current = index;
+      this.items[this.current].classList.add('is-active');
+      this.dots[this.current].classList.add('is-active');
+    }
+
+    next() {
+      this.goTo((this.current + 1) % this.items.length);
+    }
+
+    startAutoPlay() {
+      this.interval = setInterval(() => this.next(), 6000);
+    }
+
+    resetAutoPlay() {
+      if (this.interval) clearInterval(this.interval);
+      this.startAutoPlay();
+    }
+
+    disconnectedCallback() {
+      if (this.interval) clearInterval(this.interval);
+    }
+  }
+
+  customElements.define('testimonial-carousel', TestimonialCarouselElement);
+</script>
+
+<style>
+  .testimonials {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .testimonials__heading {
+    color: var(--color-white);
+    margin-bottom: var(--space-3);
+  }
+
+  .testimonials__rating {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--space-7);
+  }
+
+  .testimonials__stars,
+  .testimonial__stars {
+    color: var(--color-gold);
+    letter-spacing: 0.1em;
+  }
+
+  .testimonials__rating .testimonials__stars {
+    font-size: var(--text-xl);
+    margin-right: var(--space-2);
+  }
+
+  /* Carousel */
+  .testimonials__carousel {
+    display: block;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .testimonials__track {
+    position: relative;
+    min-height: 200px;
+  }
+
+  .testimonial {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .testimonial.is-active {
+    opacity: 1;
+    position: relative;
+  }
+
+  .testimonial__quote-mark {
+    font-family: var(--font-script);
+    font-size: 4rem;
+    color: var(--color-gold);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+  }
+
+  .testimonial__text {
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    color: var(--color-white);
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: var(--space-4);
+  }
+
+  .testimonial__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .testimonial__author {
+    font-style: normal;
+    font-weight: 500;
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Dots */
+  .testimonials__dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+  }
+
+  .testimonials__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .testimonials__dot.is-active {
+    background: var(--color-gold);
+    transform: scale(1.3);
+  }
+
+  .testimonials__dot:hover {
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  @media (max-width: 639px) {
+    .testimonials__track {
+      min-height: 260px;
+    }
+
+    .testimonial__text {
+      font-size: var(--text-base);
+    }
+  }
+</style>

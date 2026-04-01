@@ -1,0 +1,108 @@
+---
+
+---
+
+<section class="story section">
+  <div class="container story__inner">
+    <div class="story__image-col">
+      <div class="story__image-wrapper">
+        <img
+          src="/images/logo.png"
+          alt="Mamma Gwenny's — Authentic Caribbean Seasonings"
+          width="400"
+          height="400"
+          loading="lazy"
+          class="story__image"
+        />
+      </div>
+    </div>
+    <div class="story__content-col">
+      <span class="story__label text-script">The heart behind the flavour</span>
+      <h2 class="story__heading">Our Story</h2>
+      <p>
+        Mamma Gwenny's seasonings are born from a lifetime of Caribbean cooking tradition.
+        Every blend is handcrafted using recipes passed down through generations, bringing the
+        authentic taste of the islands to kitchens across Europe.
+      </p>
+      <p>
+        What started as a family recipe shared with friends and neighbours has grown into a
+        mission — to make real Caribbean flavour accessible to everyone, without compromising
+        on quality or tradition.
+      </p>
+      <a href="/about" class="btn btn-secondary">Read More</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story {
+    background-color: var(--color-white);
+  }
+
+  .story__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-9);
+    align-items: center;
+  }
+
+  /* Image */
+  .story__image-wrapper {
+    background-color: var(--color-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    position: relative;
+    background-image: url('/images/patterns/tropical-pattern.png');
+    background-size: 300px;
+    background-repeat: repeat;
+  }
+
+  .story__image {
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.2));
+  }
+
+  /* Content */
+  .story__label {
+    font-family: var(--font-script);
+    font-size: var(--text-xl);
+    color: var(--color-gold);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .story__heading {
+    color: var(--color-brown);
+    margin-bottom: var(--space-5);
+  }
+
+  .story__content-col p {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: var(--space-4);
+  }
+
+  .story__content-col .btn {
+    margin-top: var(--space-3);
+  }
+
+  @media (max-width: 1023px) {
+    .story__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-7);
+    }
+
+    .story__image-wrapper {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+</style>

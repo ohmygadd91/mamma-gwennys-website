@@ -1,0 +1,43 @@
+---
+import ProductCard from '../product/ProductCard.astro';
+import products from '../../data/products.json';
+
+const featuredProducts = products.filter((p) => p.featured);
+---
+
+<section class="featured section">
+  <div class="container">
+    <div class="featured__header">
+      <h2 class="featured__heading">Most Popular</h2>
+      <a href="/shop" class="btn btn-outline btn-sm">View All</a>
+    </div>
+    <div class="featured__grid grid grid-4">
+      {featuredProducts.map((product) => (
+        <ProductCard product={product} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-7);
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .featured__heading {
+    color: var(--color-brown);
+    margin: 0;
+  }
+
+  @media (max-width: 639px) {
+    .featured__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

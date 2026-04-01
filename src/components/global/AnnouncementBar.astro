@@ -1,0 +1,66 @@
+---
+const messages = [
+  'FREE DELIVERY on orders over €50',
+  'Authentic Caribbean Flavour — Handmade with Love',
+  'Shipping across Europe',
+];
+---
+
+<announcement-bar class="announcement-bar" role="region" aria-label="Announcements">
+  <div class="announcement-bar__inner">
+    {messages.map((msg, i) => (
+      <span class={`announcement-bar__message ${i === 0 ? 'is-active' : ''}`}>{msg}</span>
+    ))}
+  </div>
+</announcement-bar>
+
+<script>
+  class AnnouncementBarElement extends HTMLElement {
+    connectedCallback() {
+      const messages = this.querySelectorAll('.announcement-bar__message');
+      if (messages.length <= 1) return;
+
+      let current = 0;
+      setInterval(() => {
+        messages[current].classList.remove('is-active');
+        current = (current + 1) % messages.length;
+        messages[current].classList.add('is-active');
+      }, 4000);
+    }
+  }
+
+  customElements.define('announcement-bar', AnnouncementBarElement);
+</script>
+
+<style>
+  .announcement-bar {
+    display: block;
+    background-color: var(--color-primary-dark);
+    color: var(--color-white);
+    text-align: center;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .announcement-bar__inner {
+    position: relative;
+    height: 1.4em;
+    overflow: hidden;
+  }
+
+  .announcement-bar__message {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .announcement-bar__message.is-active {
+    opacity: 1;
+  }
+</style>

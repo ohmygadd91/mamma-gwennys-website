@@ -1,0 +1,479 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/product/ProductCard.astro';
+import products from '../data/products.json';
+
+const featuredProducts = products.filter((p) => p.featured);
+---
+
+<BaseLayout title="Mamma Gwenny's — Authentic Caribbean Seasonings">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg">
+      <img src="/images/hero/hero-background.png" alt="" class="hero__bg-img" />
+    </div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <span class="label" style="color: var(--color-secondary-container); display: block;">Mamma Gwenny's</span>
+      <h1 class="hero__title">AUTHENTIC<br/>CARIBBEAN<br/>SEASONINGS</h1>
+      <p class="hero__subtitle">
+        Handcrafted family recipes delivered to your door. Freshly blended spices, mixed by hand for the perfect home-cooked meal.
+      </p>
+      <div class="hero__actions">
+        <a href="/shop" class="btn btn-primary btn-lg">
+          Shop Seasonings
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        <a href="/about" class="btn btn-outline btn-lg">Our Story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- We Mix Section -->
+  <section class="mix section" style="background: var(--color-surface-low);">
+    <div class="container">
+      <div class="mix__header">
+        <h2>WE MIX THE SPICE.<br/>YOU COOK THE MAGIC.</h2>
+        <p class="mix__intro">Our handcrafted approach takes the guesswork out of Caribbean cooking while keeping the soul of the kitchen alive.</p>
+      </div>
+      <div class="grid grid-3" style="gap: var(--space-8);">
+        <div class="feature">
+          <div class="feature__icon" style="background: var(--color-secondary-container);">
+            <span class="material-symbols-outlined" style="color: var(--color-on-secondary-container); font-variation-settings: 'FILL' 1;">restaurant</span>
+          </div>
+          <h3>FRESHLY GROUND</h3>
+          <p>Spices are ground in small batches just before packing to ensure maximum potency and aromatic depth in every dish.</p>
+        </div>
+        <div class="feature">
+          <div class="feature__icon" style="background: var(--color-primary);">
+            <span class="material-symbols-outlined" style="color: var(--color-on-primary); font-variation-settings: 'FILL' 1;">history_edu</span>
+          </div>
+          <h3>FAMILY RECIPES</h3>
+          <p>Every blend is based on heritage recipes, passed down through generations for an authentic taste of the Caribbean.</p>
+        </div>
+        <div class="feature">
+          <div class="feature__icon" style="background: var(--color-secondary);">
+            <span class="material-symbols-outlined" style="color: var(--color-on-secondary); font-variation-settings: 'FILL' 1;">timer</span>
+          </div>
+          <h3>EASY TO USE</h3>
+          <p>We handle the complex spice layering so you can focus on cooking a restaurant-quality meal in your own kitchen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Most Popular -->
+  <section class="popular section">
+    <div class="container">
+      <div class="popular__header">
+        <h2>MOST POPULAR</h2>
+        <a href="/shop" class="popular__view-all">
+          VIEW ALL
+          <span class="material-symbols-outlined">east</span>
+        </a>
+      </div>
+      <div class="grid grid-4" style="gap: var(--space-6);">
+        {featuredProducts.map((product) => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Showcase -->
+  <section class="videos section" style="background: var(--color-surface-low);">
+    <div class="container">
+      <div class="videos__header">
+        <span class="label" style="color: var(--color-secondary);">See It In Action</span>
+        <h2>WATCH THE FLAVOUR</h2>
+      </div>
+      <div class="videos__row">
+        <div class="videos__card">
+          <video class="videos__player" muted loop playsinline preload="metadata" poster="">
+            <source src="/videos/video1.mp4" type="video/mp4" />
+          </video>
+          <button class="videos__play-btn" aria-label="Play video">
+            <span class="material-symbols-outlined">play_arrow</span>
+          </button>
+        </div>
+        <div class="videos__card">
+          <video class="videos__player" muted loop playsinline preload="metadata" poster="">
+            <source src="/videos/video2.mp4" type="video/mp4" />
+          </video>
+          <button class="videos__play-btn" aria-label="Play video">
+            <span class="material-symbols-outlined">play_arrow</span>
+          </button>
+        </div>
+        <div class="videos__card">
+          <video class="videos__player" muted loop playsinline preload="metadata" poster="">
+            <source src="/videos/video3.mp4" type="video/mp4" />
+          </video>
+          <button class="videos__play-btn" aria-label="Play video">
+            <span class="material-symbols-outlined">play_arrow</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story -->
+  <section class="story">
+    <div class="story__bg"></div>
+    <div class="story__overlay"></div>
+    <div class="story__inner">
+      <div class="story__image">
+        <img src="/images/mamma-gwenny-real.jpeg" alt="Mamma Gwenny" loading="lazy" />
+      </div>
+      <div class="story__content">
+        <span class="label" style="color: var(--color-secondary-container);">Our Roots</span>
+        <h2 style="color: var(--color-white);">THE LEGACY OF<br/>MAMMA GWENNY.</h2>
+        <p style="color: rgba(255,255,255,0.8);">Mamma Gwenny's was born from a desire to share the vibrant culinary world of Caribbean cooking. Every seasoning carries recipes passed down through generations — an obsession with freshness and authentic island flavour.</p>
+        <a href="/about" class="btn" style="background: var(--color-white); color: var(--color-primary); margin-top: var(--space-5);">READ OUR STORY</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="testimonial section" style="background: var(--color-surface-high);">
+    <div class="container" style="max-width: 900px;">
+      <div class="text-center">
+        <span class="material-symbols-outlined" style="font-size: 3.5rem; color: var(--color-secondary); margin-bottom: var(--space-6); display: block;">format_quote</span>
+        <p class="testimonial__text">"Finally, I can cook authentic Caribbean food at home that actually tastes like the real thing. The freshness is unbelievable."</p>
+        <div class="testimonial__divider"></div>
+        <span class="testimonial__author">SARAH JENKINS, LONDON</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.videos__card').forEach((card) => {
+    const video = card.querySelector('video') as HTMLVideoElement;
+    const btn = card.querySelector('.videos__play-btn') as HTMLButtonElement;
+
+    const toggle = () => {
+      if (video.paused) {
+        video.play();
+        card.classList.add('is-playing');
+      } else {
+        video.pause();
+        card.classList.remove('is-playing');
+      }
+    };
+
+    btn.addEventListener('click', toggle);
+    card.addEventListener('click', (e) => {
+      if (e.target !== btn && !btn.contains(e.target as Node)) toggle();
+    });
+  });
+</script>
+
+<style>
+  /* --- Hero --- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: var(--space-9);
+    overflow: hidden;
+    background: #2a6b4f;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.45) 35%,
+      rgba(0, 0, 0, 0.15) 65%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    padding: var(--space-6);
+    padding-top: 10rem;
+    max-width: 900px;
+  }
+
+  .hero__title {
+    color: var(--color-white);
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin: var(--space-5) 0 var(--space-6);
+  }
+
+  .hero__subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    max-width: 560px;
+    margin-bottom: var(--space-7);
+    line-height: 1.7;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  /* --- Mix Section --- */
+  .mix__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-6);
+    margin-bottom: var(--space-10);
+  }
+
+  .mix__header h2 {
+    max-width: 640px;
+  }
+
+  .mix__intro {
+    max-width: 420px;
+    font-size: var(--text-lg);
+    font-weight: 500;
+  }
+
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .feature__icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-xl);
+    transition: transform var(--transition-base);
+  }
+
+  .feature__icon .material-symbols-outlined { font-size: 28px; }
+  .feature:hover .feature__icon { transform: scale(1.1); }
+  .feature p { line-height: 1.7; }
+
+  /* --- Videos --- */
+  .videos__header {
+    margin-bottom: var(--space-7);
+  }
+
+  .videos__header h2 {
+    margin-top: var(--space-2);
+  }
+
+  .videos__row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .videos__card {
+    position: relative;
+    width: 30%;
+    aspect-ratio: 3 / 5;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    cursor: pointer;
+    background: #000;
+  }
+
+  .videos__player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .videos__play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: rgba(0, 0, 0, 0.45);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    backdrop-filter: blur(4px);
+  }
+
+  .videos__play-btn .material-symbols-outlined {
+    font-size: 32px;
+  }
+
+  .videos__play-btn:hover {
+    background: var(--color-primary-container);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .videos__card.is-playing .videos__play-btn {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .videos__card.is-playing:hover .videos__play-btn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .videos__card.is-playing .videos__play-btn .material-symbols-outlined::after {
+    content: 'pause';
+  }
+
+  @media (max-width: 768px) {
+    .videos__row {
+      overflow-x: auto;
+      justify-content: flex-start;
+      padding-bottom: var(--space-3);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .videos__row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .videos__card {
+      width: 180px;
+    }
+  }
+
+  /* --- Popular --- */
+  .popular__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-8);
+  }
+
+  .popular__view-all {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    color: var(--color-secondary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: gap var(--transition-fast);
+  }
+
+  .popular__view-all:hover { gap: var(--space-3); }
+
+  /* --- Story --- */
+  .story {
+    padding: var(--space-9) 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .story__bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/patterns/tropical-pattern.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    z-index: 0;
+  }
+
+  .story__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1;
+  }
+
+  .story__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: var(--space-9);
+    padding: 0 var(--space-6);
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .story__image {
+    flex: 0 0 45%;
+    max-width: 45%;
+  }
+
+  .story__image img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+  }
+
+  .story__content {
+    flex: 1;
+  }
+
+  .story__content h2 { margin: var(--space-4) 0 var(--space-6); }
+  .story__content p { font-size: var(--text-lg); font-weight: 500; line-height: 1.7; }
+
+  /* --- Testimonial --- */
+  .testimonial__text {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: var(--text-3xl);
+    font-style: italic;
+    color: var(--color-tertiary);
+    line-height: 1.3;
+    margin-bottom: var(--space-7);
+    text-transform: none;
+  }
+
+  .testimonial__divider {
+    width: 48px;
+    height: 3px;
+    background: var(--color-secondary);
+    margin: 0 auto var(--space-4);
+  }
+
+  .testimonial__author {
+    font-family: var(--font-headline);
+    font-weight: normal;
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    letter-spacing: 0.15em;
+  }
+
+  @media (max-width: 1023px) {
+    .mix__header { flex-direction: column; align-items: flex-start; }
+    .story__inner { flex-direction: column; }
+    .story__image { flex: none; max-width: 100%; }
+    .popular__header { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
+  }
+
+  @media (max-width: 639px) {
+    .hero { min-height: 80vh; }
+    .hero__actions { flex-direction: column; }
+  }
+</style>

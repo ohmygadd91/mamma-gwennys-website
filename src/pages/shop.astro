@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/product/ProductCard.astro';
+import products from '../data/products.json';
+---
+
+<BaseLayout
+  title="Shop All — Mamma Gwenny's Authentic Caribbean Seasonings"
+  description="Browse our full range of handcrafted Caribbean seasonings."
+>
+  <section class="shop section-sm" style="padding-top: 9rem;">
+    <div class="container">
+      <div class="shop__header">
+        <div>
+          <span class="label" style="color: var(--color-secondary); margin-bottom: var(--space-3); display: block;">The Spice Market</span>
+          <h1 class="shop__title">ALL CARIBBEAN<br/>SEASONINGS.</h1>
+        </div>
+        <p class="shop__intro">Hand-blended from the heart of the Caribbean. Pure, potent, and made with love.</p>
+      </div>
+
+      <div class="grid grid-4" style="gap: 2.5rem 2rem; margin-top: var(--space-8);">
+        {products.map((product) => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .shop__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .shop__title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .shop__intro {
+    max-width: 380px;
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-on-surface-variant);
+  }
+
+  @media (max-width: 639px) {
+    .shop__header { flex-direction: column; align-items: flex-start; }
+  }
+</style>

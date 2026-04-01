@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductGallery from '../../components/product/ProductGallery.astro';
+import ProductInfo from '../../components/product/ProductInfo.astro';
+import ProductCard from '../../components/product/ProductCard.astro';
+import products from '../../data/products.json';
+
+export function getStaticPaths() {
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+
+// Get related products (exclude current, pick up to 4)
+const relatedProducts = products
+  .filter((p) => p.id !== product.id)
+  .sort(() => 0.5 - Math.random())
+  .slice(0, 4);
+---
+
+<BaseLayout
+  title={`${product.name} — Mamma Gwenny's`}
+  description={product.description}
+  ogImage={product.image}
+>
+  <section class="product-page section-sm" style="padding-top: 9rem;">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/shop">Shop</a></li>
+          <li aria-current="page">{product.name}</li>
+        </ol>
+      </nav>
+
+      <!-- Product layout -->
+      <div class="product-page__layout">
+        <div class="product-page__gallery">
+          <ProductGallery image={product.image} name={product.name} color={product.color} />
+        </div>
+        <div class="product-page__info">
+          <ProductInfo product={product} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related products -->
+  <section class="related section">
+    <div class="container">
+      <h2 class="related__heading">You May Also Like</h2>
+      <div class="grid grid-4">
+        {relatedProducts.map((p) => (
+          <ProductCard product={p} />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Breadcrumb */
+  .breadcrumb {
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .breadcrumb li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  .breadcrumb li + li::before {
+    content: '/';
+    color: var(--color-outline-variant);
+  }
+
+  .breadcrumb a {
+    color: var(--color-outline);
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-primary);
+  }
+
+  .breadcrumb [aria-current="page"] {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  /* Product layout */
+  .product-page__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-9);
+    align-items: start;
+  }
+
+  /* Related */
+  .related {
+    background-color: var(--color-surface-low);
+  }
+
+  .related__heading {
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-7);
+  }
+
+  @media (max-width: 1023px) {
+    .product-page__layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .product-page__gallery {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+</style>

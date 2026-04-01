@@ -1,0 +1,492 @@
+---
+const FREE_SHIPPING_THRESHOLD = 50;
+---
+
+<cart-drawer class="cart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping cart" data-free-shipping={FREE_SHIPPING_THRESHOLD}>
+  <div class="cart-drawer__overlay" data-close-cart></div>
+  <div class="cart-drawer__panel">
+    <!-- Header -->
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">Your Cart</h2>
+      <button class="cart-drawer__close" aria-label="Close cart" data-close-cart>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Free shipping progress bar -->
+    <div class="cart-drawer__shipping">
+      <div class="cart-drawer__shipping-text" data-shipping-text>
+        You're <strong>€{FREE_SHIPPING_THRESHOLD.toFixed(2)}</strong> away from free delivery!
+      </div>
+      <div class="cart-drawer__shipping-bar">
+        <div class="cart-drawer__shipping-progress" data-shipping-progress style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Cart items -->
+    <div class="cart-drawer__items" data-cart-items>
+      <div class="cart-drawer__empty" data-cart-empty>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 01-8 0" />
+        </svg>
+        <p>Your cart is empty</p>
+        <a href="/shop" class="btn btn-primary btn-sm" data-close-cart>Start Shopping</a>
+      </div>
+      <div class="cart-drawer__item-list" data-cart-item-list></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="cart-drawer__footer" data-cart-footer style="display: none;">
+      <div class="cart-drawer__subtotal">
+        <span>Subtotal</span>
+        <strong data-cart-total>€0.00</strong>
+      </div>
+      <p class="cart-drawer__tax-note">Shipping & taxes calculated at checkout</p>
+      <button class="snipcart-checkout btn btn-primary btn-lg cart-drawer__checkout-btn">
+        Checkout
+      </button>
+      <a href="/shop" class="cart-drawer__continue" data-close-cart>Continue Shopping</a>
+    </div>
+  </div>
+</cart-drawer>
+
+<script>
+  class CartDrawerElement extends HTMLElement {
+    private freeShippingThreshold: number;
+
+    constructor() {
+      super();
+      this.freeShippingThreshold = Number(this.dataset.freeShipping) || 50;
+    }
+
+    connectedCallback() {
+      // Close triggers
+      this.querySelectorAll('[data-close-cart]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          // Don't prevent navigation for links
+          if ((el as HTMLElement).tagName === 'A' && (el as HTMLAnchorElement).href) {
+            this.close();
+            return;
+          }
+          e.preventDefault();
+          this.close();
+        });
+      });
+
+      // Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.classList.contains('is-open')) {
+          this.close();
+        }
+      });
+
+      // Open from header cart button
+      document.querySelectorAll('[data-open-cart]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.open();
+        });
+      });
+
+      // Listen for Snipcart events
+      this.initSnipcart();
+    }
+
+    initSnipcart() {
+      const check = () => {
+        if (typeof window.Snipcart !== 'undefined') {
+          window.Snipcart.store.subscribe(() => {
+            const state = window.Snipcart.store.getState();
+            this.updateCart(state.cart);
+          });
+
+          // Open cart drawer when item is added
+          document.addEventListener('snipcart.theme.cart.opened', () => {
+            // Prevent Snipcart's own modal from showing
+          });
+        } else {
+          setTimeout(check, 500);
+        }
+      };
+      check();
+    }
+
+    updateCart(cart: any) {
+      const items = cart.items?.items || [];
+      const total = cart.total || 0;
+      const itemCount = items.reduce((sum: number, item: any) => sum + item.quantity, 0);
+
+      // Update shipping progress
+      this.updateShippingProgress(total);
+
+      // Update items list
+      const listEl = this.querySelector('[data-cart-item-list]') as HTMLElement;
+      const emptyEl = this.querySelector('[data-cart-empty]') as HTMLElement;
+      const footerEl = this.querySelector('[data-cart-footer]') as HTMLElement;
+      const totalEl = this.querySelector('[data-cart-total]') as HTMLElement;
+
+      if (items.length === 0) {
+        emptyEl.style.display = 'flex';
+        listEl.innerHTML = '';
+        footerEl.style.display = 'none';
+      } else {
+        emptyEl.style.display = 'none';
+        footerEl.style.display = 'block';
+        totalEl.textContent = `€${total.toFixed(2)}`;
+
+        listEl.innerHTML = items.map((item: any) => `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" class="cart-item__image" width="64" height="96" />
+            <div class="cart-item__details">
+              <p class="cart-item__name">${item.name}</p>
+              <p class="cart-item__price">€${item.price.toFixed(2)}</p>
+              <div class="cart-item__quantity">
+                <button class="cart-item__qty-btn" data-snipcart-update="${item.uniqueId}" data-qty="${item.quantity - 1}" aria-label="Decrease">−</button>
+                <span>${item.quantity}</span>
+                <button class="cart-item__qty-btn" data-snipcart-update="${item.uniqueId}" data-qty="${item.quantity + 1}" aria-label="Increase">+</button>
+              </div>
+            </div>
+            <button class="cart-item__remove" data-snipcart-remove="${item.uniqueId}" aria-label="Remove ${item.name}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        `).join('');
+
+        // Bind quantity and remove buttons
+        listEl.querySelectorAll('[data-snipcart-update]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const el = btn as HTMLElement;
+            const uniqueId = el.dataset.snipcartUpdate!;
+            const qty = Number(el.dataset.qty);
+            if (qty <= 0) {
+              window.Snipcart.api.cart.items.remove(uniqueId);
+            } else {
+              window.Snipcart.api.cart.items.update({ uniqueId, quantity: qty });
+            }
+          });
+        });
+
+        listEl.querySelectorAll('[data-snipcart-remove]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const uniqueId = (btn as HTMLElement).dataset.snipcartRemove!;
+            window.Snipcart.api.cart.items.remove(uniqueId);
+          });
+        });
+      }
+    }
+
+    updateShippingProgress(total: number) {
+      const textEl = this.querySelector('[data-shipping-text]') as HTMLElement;
+      const progressEl = this.querySelector('[data-shipping-progress]') as HTMLElement;
+      const remaining = Math.max(0, this.freeShippingThreshold - total);
+      const percentage = Math.min(100, (total / this.freeShippingThreshold) * 100);
+
+      progressEl.style.width = `${percentage}%`;
+
+      if (remaining <= 0) {
+        textEl.innerHTML = '🎉 You\'ve unlocked <strong>free delivery!</strong>';
+        progressEl.style.backgroundColor = 'var(--color-green)';
+      } else {
+        textEl.innerHTML = `You're <strong>€${remaining.toFixed(2)}</strong> away from free delivery!`;
+        progressEl.style.backgroundColor = '';
+      }
+    }
+
+    open() {
+      this.classList.add('is-open');
+      this.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    close() {
+      this.classList.remove('is-open');
+      this.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Extend Window to include Snipcart
+  declare global {
+    interface Window {
+      Snipcart: any;
+    }
+  }
+
+  customElements.define('cart-drawer', CartDrawerElement);
+</script>
+
+<style>
+  .cart-drawer {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-drawer);
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .cart-drawer.is-open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  /* Overlay */
+  .cart-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    cursor: pointer;
+  }
+
+  .cart-drawer.is-open .cart-drawer__overlay {
+    opacity: 1;
+  }
+
+  /* Panel */
+  .cart-drawer__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 420px;
+    max-width: 100vw;
+    background: var(--color-white);
+    box-shadow: var(--shadow-drawer);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cart-drawer.is-open .cart-drawer__panel {
+    transform: translateX(0);
+  }
+
+  /* Header */
+  .cart-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .cart-drawer__title {
+    font-size: var(--text-xl);
+    color: var(--color-brown);
+    margin: 0;
+  }
+
+  .cart-drawer__close {
+    color: var(--color-text-muted);
+    padding: var(--space-2);
+    transition: color var(--transition-fast);
+  }
+
+  .cart-drawer__close:hover {
+    color: var(--color-text);
+  }
+
+  /* Shipping bar */
+  .cart-drawer__shipping {
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-gray-100);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .cart-drawer__shipping-text {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+    text-align: center;
+  }
+
+  .cart-drawer__shipping-text strong {
+    color: var(--color-primary);
+  }
+
+  .cart-drawer__shipping-bar {
+    height: 6px;
+    background: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .cart-drawer__shipping-progress {
+    height: 100%;
+    background: var(--color-orange);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-base);
+  }
+
+  /* Items area */
+  .cart-drawer__items {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  /* Empty state */
+  .cart-drawer__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: var(--space-9) 0;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  .cart-drawer__empty p {
+    font-size: var(--text-lg);
+    margin: 0;
+  }
+
+  /* Footer */
+  .cart-drawer__footer {
+    padding: var(--space-5);
+    border-top: 1px solid var(--color-gray-200);
+    background: var(--color-white);
+  }
+
+  .cart-drawer__subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .cart-drawer__subtotal strong {
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+  }
+
+  .cart-drawer__tax-note {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .cart-drawer__checkout-btn {
+    width: 100%;
+    margin-bottom: var(--space-3);
+  }
+
+  .cart-drawer__continue {
+    display: block;
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .cart-drawer__continue:hover {
+    color: var(--color-primary);
+  }
+</style>
+
+<!-- Cart item styles (injected dynamically, so must be global) -->
+<style is:global>
+  .cart-item {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-gray-200);
+    align-items: flex-start;
+  }
+
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+
+  .cart-item__image {
+    width: 64px;
+    height: auto;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .cart-item__details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cart-item__name {
+    font-weight: 500;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    margin: 0 0 var(--space-1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cart-item__price {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 var(--space-2);
+  }
+
+  .cart-item__quantity {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-sm);
+    padding: 2px;
+  }
+
+  .cart-item__qty-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+  }
+
+  .cart-item__qty-btn:hover {
+    background: var(--color-gray-100);
+    color: var(--color-text);
+  }
+
+  .cart-item__quantity span {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .cart-item__remove {
+    color: var(--color-gray-300);
+    padding: var(--space-1);
+    flex-shrink: 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: color 150ms ease;
+  }
+
+  .cart-item__remove:hover {
+    color: var(--color-orange);
+  }
+</style>

@@ -1,0 +1,204 @@
+/* =============================================
+   Mamma Gwenny's — Design System
+   Bold Graphic Caribbean
+   ============================================= */
+
+/* --- Custom Fonts --- */
+@font-face {
+  font-family: 'Tun Up De Ting';
+  src: url('/fonts/TunUpDeTing.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- CSS Reset --- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; }
+p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+button { cursor: pointer; border: none; background: none; }
+
+/* --- Custom Properties --- */
+:root {
+  /* Orange primary (from tropical background) */
+  --color-primary:           #c4540f;
+  --color-primary-container: #e8651a;
+  --color-on-primary:        #ffffff;
+
+  /* Warm accents */
+  --color-secondary:         #9b4330;
+  --color-secondary-container: #fd9078;
+  --color-on-secondary:      #ffffff;
+  --color-on-secondary-container: #752817;
+
+  /* Dark tertiary */
+  --color-tertiary:          #2f2f2f;
+  --color-on-tertiary:       #ffffff;
+  --color-tertiary-container: #464545;
+
+  /* Surfaces */
+  --color-surface:           #f9f9f9;
+  --color-surface-low:       #f3f3f3;
+  --color-surface-container: #eeeeee;
+  --color-surface-high:      #e8e8e8;
+  --color-surface-highest:   #e2e2e2;
+  --color-white:             #ffffff;
+
+  /* Text / outline */
+  --color-on-surface:        #1a1c1c;
+  --color-on-surface-variant: #50434d;
+  --color-outline:           #82737d;
+  --color-outline-variant:   #d4c1cd;
+
+  /* Semantic */
+  --color-bg:           var(--color-surface);
+  --color-text:         var(--color-on-surface);
+  --color-text-muted:   var(--color-on-surface-variant);
+
+  /* Typography */
+  --font-headline: 'Tun Up De Ting', 'Epilogue', sans-serif;
+  --font-body:     'Plus Jakarta Sans', sans-serif;
+  --font-label:    'Plus Jakarta Sans', sans-serif;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  2rem;
+  --text-4xl:  2.5rem;
+  --text-5xl:  3.5rem;
+  --text-6xl:  4.5rem;
+
+  /* Spacing */
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+  --space-4: 1rem; --space-5: 1.5rem; --space-6: 2rem;
+  --space-7: 3rem; --space-8: 4rem; --space-9: 6rem; --space-10: 8rem;
+
+  /* Layout */
+  --container-max: 1280px;
+  --container-padding: var(--space-6);
+  --grid-gap: var(--space-6);
+
+  /* Shadows */
+  --shadow-editorial: 0 20px 40px rgba(45, 21, 7, 0.06);
+  --shadow-card:      0 4px 16px rgba(45, 21, 7, 0.04);
+  --shadow-hover:     0 20px 40px rgba(45, 21, 7, 0.1);
+  --shadow-drawer:    -4px 0 24px rgba(0, 0, 0, 0.15);
+
+  /* Borders */
+  --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 0.75rem;
+  --radius-xl: 1rem; --radius-2xl: 1.25rem; --radius-3xl: 2.5rem; --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease; --transition-base: 300ms ease; --transition-slow: 500ms ease;
+
+  /* Z-index */
+  --z-header: 100; --z-drawer: 200; --z-overlay: 190; --z-modal: 300;
+}
+
+/* --- Base --- */
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--text-base);
+  color: var(--color-tertiary);
+  background-color: var(--color-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--color-primary);
+}
+
+h1 { font-size: var(--text-6xl); }
+h2 { font-size: var(--text-5xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+
+p { margin-bottom: var(--space-4); color: var(--color-tertiary); line-height: 1.7; }
+p:last-child { margin-bottom: 0; }
+
+.label {
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+/* --- Utilities --- */
+.container { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--container-padding); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.text-center { text-align: center; }
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  font-family: var(--font-headline); font-weight: normal; font-size: var(--text-base);
+  text-transform: uppercase; letter-spacing: 0.01em;
+  border-radius: var(--radius-md); padding: var(--space-4) var(--space-7);
+  transition: transform var(--transition-base), background-color var(--transition-base);
+  cursor: pointer; border: none; text-decoration: none; line-height: 1;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary { background: var(--color-primary); color: var(--color-on-primary); }
+.btn-primary:hover { background: var(--color-primary-container); }
+
+.btn-secondary { background: var(--color-tertiary); color: var(--color-on-tertiary); }
+.btn-secondary:hover { background: var(--color-primary); }
+
+.btn-outline { border: 2px solid currentColor; color: var(--color-white); background: transparent; }
+.btn-outline:hover { background: var(--color-white); color: var(--color-primary); }
+
+.btn-lg { padding: var(--space-5) var(--space-8); font-size: var(--text-lg); }
+.btn-sm { padding: var(--space-3) var(--space-5); font-size: var(--text-sm); }
+
+/* --- Cards --- */
+.card {
+  background: var(--color-white); border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card); overflow: hidden;
+  transition: box-shadow var(--transition-base), transform var(--transition-slow);
+}
+.card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+
+/* --- Sections --- */
+.section { padding-block: var(--space-9); }
+.section-sm { padding-block: var(--space-7); }
+
+/* --- Grid --- */
+.grid { display: grid; gap: var(--grid-gap); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1023px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 639px) {
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  h1 { font-size: var(--text-4xl); }
+  h2 { font-size: var(--text-3xl); }
+}
+
+/* --- Skip Link --- */
+.skip-link {
+  position: absolute; top: -100%; left: var(--space-4);
+  padding: var(--space-3) var(--space-5); background: var(--color-primary);
+  color: var(--color-white); border-radius: var(--radius-md); z-index: var(--z-modal); font-weight: 600;
+}
+.skip-link:focus { top: var(--space-4); }

@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Our Story — Mamma Gwenny's Authentic Caribbean Seasonings"
+  description="Discover the story behind Mamma Gwenny's — authentic Caribbean seasonings handcrafted with love, using recipes passed down through generations."
+>
+  <!-- Hero -->
+  <section class="about-hero" style="padding-top: 9rem;">
+    <div class="about-hero__pattern"></div>
+    <div class="container about-hero__inner">
+      <h1>Our Story</h1>
+      <p class="about-hero__subtitle">The heart behind the flavour</p>
+    </div>
+  </section>
+
+  <!-- Story content -->
+  <section class="about-content section">
+    <div class="container about-content__inner">
+      <div class="about-content__text">
+        <h2>A Taste of the Caribbean, Made with Love</h2>
+        <p>
+          Mamma Gwenny's story begins in the kitchen — where the rich aromas of Caribbean spices
+          filled the air and every meal was prepared with care, tradition, and a whole lot of love.
+          For generations, our family recipes have brought people together around the table, creating
+          moments of joy and connection through food.
+        </p>
+        <p>
+          What started as a cherished family tradition soon became something bigger. Friends,
+          neighbours, and community members couldn't get enough of Mamma Gwenny's signature
+          seasoning blends. The secret? Authentic Caribbean recipes, the finest ingredients, and
+          a dedication to doing things the right way — by hand, with heart.
+        </p>
+
+        <h2>Handcrafted, Never Mass-Produced</h2>
+        <p>
+          Every jar of Mamma Gwenny's seasoning is mixed by hand in small batches. We believe that
+          great flavour can't be rushed or replicated by machines. Each blend is carefully crafted
+          to capture the true essence of Caribbean cooking — bold, vibrant, and full of warmth.
+        </p>
+        <p>
+          From our Fish Flavour Seasoning that brings the taste of the islands to your Friday
+          night dinner, to our fiery Jerk Seasoning that's perfect for summer barbecues — every
+          product in our range has been developed with authenticity at its core.
+        </p>
+
+        <h2>From Our Kitchen to Yours</h2>
+        <p>
+          Today, Mamma Gwenny's seasonings are enjoyed by food lovers across Europe. But no
+          matter how far our spices travel, the heart of what we do stays the same: sharing
+          authentic Caribbean flavour with the world, one meal at a time.
+        </p>
+        <p>
+          Whether you're a seasoned Caribbean cook or trying these flavours for the first time,
+          we're here to help you create something special. Because at Mamma Gwenny's, we believe
+          that the best meals are made with love — and a great seasoning.
+        </p>
+      </div>
+
+      <aside class="about-content__sidebar">
+        <div class="about-values">
+          <div class="about-value">
+            <span class="about-value__icon">🌿</span>
+            <h3 class="about-value__title">Natural Ingredients</h3>
+            <p>Only the finest herbs and spices, carefully sourced for authentic Caribbean flavour.</p>
+          </div>
+          <div class="about-value">
+            <span class="about-value__icon">🤲</span>
+            <h3 class="about-value__title">Handmade</h3>
+            <p>Every batch is mixed by hand in small quantities to ensure quality and consistency.</p>
+          </div>
+          <div class="about-value">
+            <span class="about-value__icon">👨‍👩‍👧‍👦</span>
+            <h3 class="about-value__title">Family Recipes</h3>
+            <p>Authentic recipes passed down through generations of Caribbean cooking tradition.</p>
+          </div>
+          <div class="about-value">
+            <span class="about-value__icon">🌍</span>
+            <h3 class="about-value__title">Europe-Wide</h3>
+            <p>Delivering authentic Caribbean flavour to kitchens across Europe.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="about-cta section bg-pattern">
+    <div class="container text-center">
+      <h2 class="about-cta__heading">Ready to Taste the Caribbean?</h2>
+      <p class="about-cta__text">Explore our range of authentic handcrafted seasonings.</p>
+      <a href="/shop" class="btn btn-primary btn-lg">Shop Now</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .about-hero {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    text-align: center;
+    padding-block: var(--space-8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-hero__pattern {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/patterns/tropical-pattern.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    opacity: 0.08;
+  }
+
+  .about-hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-2);
+  }
+
+  .about-hero__subtitle {
+    font-family: var(--font-script);
+    font-size: var(--text-2xl);
+    color: var(--color-gold);
+    margin: 0;
+  }
+
+  /* Content */
+  .about-content__inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-9);
+    align-items: start;
+  }
+
+  .about-content__text h2 {
+    font-size: var(--text-2xl);
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-4);
+    margin-top: var(--space-7);
+  }
+
+  .about-content__text h2:first-child {
+    margin-top: 0;
+  }
+
+  .about-content__text p {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  /* Sidebar values */
+  .about-values {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    position: sticky;
+    top: 140px;
+  }
+
+  .about-value {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-card);
+  }
+
+  .about-value__icon {
+    font-size: var(--text-3xl);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .about-value__title {
+    font-size: var(--text-base);
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-2);
+  }
+
+  .about-value p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* CTA */
+  .about-cta {
+    background-color: var(--color-orange-dark);
+    background-image: url('/images/patterns/tropical-pattern.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    color: var(--color-white);
+    position: relative;
+  }
+
+  .about-cta__heading {
+    color: var(--color-white);
+    margin-bottom: var(--space-3);
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-cta__text {
+    color: var(--color-outline-variant);
+    margin-bottom: var(--space-6);
+    font-size: var(--text-lg);
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-cta .btn {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 1023px) {
+    .about-content__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-7);
+    }
+
+    .about-values {
+      position: static;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .about-values {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

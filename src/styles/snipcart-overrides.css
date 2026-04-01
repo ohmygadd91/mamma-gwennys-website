@@ -1,0 +1,38 @@
+/* Snipcart Overrides — Mamma Gwenny's Bold Graphic */
+.snipcart-cart-button--highlight { display: none !important; }
+.snipcart-modal__container { font-family: 'Plus Jakarta Sans', sans-serif; }
+.snipcart-cart-header { background-color: #c4540f; }
+.snipcart-cart-header__title { font-family: 'Epilogue', sans-serif; text-transform: uppercase; letter-spacing: -0.02em; }
+
+.snipcart-btn--primary, .snipcart-base-button--primary {
+  background-color: #c4540f !important;
+  border-radius: 0.5rem !important;
+  font-family: 'Tun Up De Ting', 'Epilogue', sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+}
+.snipcart-btn--primary:hover, .snipcart-base-button--primary:hover {
+  background-color: #e8651a !important;
+}
+
+.snipcart-btn--secondary {
+  border-color: #c4540f !important;
+  color: #c4540f !important;
+  border-radius: 0.5rem !important;
+  font-family: 'Tun Up De Ting', 'Epilogue', sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+}
+
+.snipcart-form__input, .snipcart-form__select {
+  border-radius: 0.5rem !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+.snipcart-form__input:focus, .snipcart-form__select:focus {
+  border-color: #e8651a !important;
+  box-shadow: 0 0 0 2px rgba(232, 101, 26, 0.15) !important;
+}
+
+.snipcart-modal__overlay { background-color: rgba(0, 0, 0, 0.4) !important; }
+.snipcart-checkout-step__icon--active { background-color: #c4540f !important; }
+.snipcart-discount-box__button { background-color: #c4540f !important; border-radius: 0.5rem !important; }

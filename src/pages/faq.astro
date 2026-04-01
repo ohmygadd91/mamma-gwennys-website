@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const faqSections = [
+  {
+    title: 'Ordering',
+    questions: [
+      {
+        q: 'How do I place an order?',
+        a: 'Simply browse our shop, add your favourite seasonings to your cart, and proceed to checkout. We accept all major credit cards and PayPal.',
+      },
+      {
+        q: 'Can I change or cancel my order?',
+        a: 'If you need to change or cancel your order, please contact us as soon as possible at hello@mammagwennys.com. We process orders quickly, so we may not be able to make changes once the order has been dispatched.',
+      },
+      {
+        q: 'Do you offer gift packaging?',
+        a: 'We are working on gift sets and special packaging options. Keep an eye on our shop for updates, or sign up to our newsletter to be the first to know.',
+      },
+    ],
+  },
+  {
+    title: 'Delivery',
+    questions: [
+      {
+        q: 'Where do you deliver?',
+        a: 'We deliver across Europe. Shipping costs and delivery times vary by country — see our Delivery Information page for full details.',
+      },
+      {
+        q: 'How long does delivery take?',
+        a: 'Standard delivery within the UK takes 3-5 business days. European deliveries typically take 5-10 business days depending on your location.',
+      },
+      {
+        q: 'Is there free delivery?',
+        a: 'Yes! We offer free standard delivery on all orders over €50.',
+      },
+      {
+        q: 'How can I track my order?',
+        a: 'Once your order has been dispatched, you will receive a confirmation email with a tracking number so you can follow your package.',
+      },
+    ],
+  },
+  {
+    title: 'Products',
+    questions: [
+      {
+        q: 'Are your seasonings suitable for vegetarians/vegans?',
+        a: 'Yes, all of our seasonings are suitable for both vegetarians and vegans. We have a dedicated Vegetarian Seasoning blend, but all our products are plant-based.',
+      },
+      {
+        q: 'Do your products contain allergens?',
+        a: 'Our seasonings are made in a facility that also handles celery, mustard, and sesame. Please check individual product labels for specific allergen information. If you have a specific allergy concern, contact us and we will be happy to help.',
+      },
+      {
+        q: 'How should I store the seasonings?',
+        a: 'Store in a cool, dry place away from direct sunlight. Once opened, reseal the pouch tightly and use within 12 months for the best flavour.',
+      },
+      {
+        q: 'How spicy are the seasonings?',
+        a: 'Heat levels vary by blend. Our Jerk Seasoning has the most kick, while blends like Chicken and All Purpose have a mild-to-medium warmth. None are overwhelmingly hot — the focus is on flavour.',
+      },
+    ],
+  },
+  {
+    title: 'Returns & Refunds',
+    questions: [
+      {
+        q: 'What is your returns policy?',
+        a: 'Due to the nature of food products, we cannot accept returns on opened items. If your order arrives damaged or incorrect, please contact us within 48 hours with photos and we will arrange a replacement or refund.',
+      },
+      {
+        q: 'How do I request a refund?',
+        a: 'Please email hello@mammagwennys.com with your order number and details of the issue. We aim to resolve all refund requests within 5 business days.',
+      },
+    ],
+  },
+];
+
+// Build FAQ schema for SEO
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqSections.flatMap((section) =>
+    section.questions.map((q) => ({
+      '@type': 'Question',
+      name: q.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: q.a,
+      },
+    }))
+  ),
+};
+---
+
+<BaseLayout
+  title="FAQ — Mamma Gwenny's Authentic Caribbean Seasonings"
+  description="Frequently asked questions about Mamma Gwenny's Caribbean seasonings — ordering, delivery, products, and returns."
+>
+  <!-- FAQ Schema -->
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <!-- Hero -->
+  <section class="faq-hero" style="padding-top: 9rem;">
+    <div class="faq-hero__pattern"></div>
+    <div class="container faq-hero__inner">
+      <h1>Frequently Asked Questions</h1>
+      <p class="faq-hero__subtitle">Everything you need to know about our seasonings and ordering</p>
+    </div>
+  </section>
+
+  <section class="faq section">
+    <div class="container faq__inner">
+      {faqSections.map((section) => (
+        <div class="faq-section">
+          <h2 class="faq-section__title">{section.title}</h2>
+          <div class="faq-section__questions">
+            {section.questions.map((item) => (
+              <details class="faq-item">
+                <summary class="faq-item__question">{item.q}</summary>
+                <div class="faq-item__answer">
+                  <p>{item.a}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div class="faq-cta">
+        <p>Can't find what you're looking for?</p>
+        <a href="/contact" class="btn btn-secondary">Contact Us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .faq-hero {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    text-align: center;
+    padding-block: var(--space-8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .faq-hero__pattern {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/patterns/tropical-pattern.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    opacity: 0.08;
+  }
+
+  .faq-hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .faq-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-2);
+  }
+
+  .faq-hero__subtitle {
+    font-size: var(--text-lg);
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    font-weight: 300;
+  }
+
+  /* FAQ content */
+  .faq__inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .faq-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .faq-section__title {
+    font-size: var(--text-2xl);
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-gold);
+  }
+
+  /* FAQ items */
+  .faq-item {
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  .faq-item__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) 0;
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+    list-style: none;
+    font-size: var(--text-base);
+    line-height: 1.5;
+  }
+
+  .faq-item__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item__question::after {
+    content: '+';
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-left: var(--space-4);
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+  }
+
+  [open] .faq-item__question::after {
+    content: '−';
+  }
+
+  .faq-item__answer {
+    padding-bottom: var(--space-4);
+  }
+
+  .faq-item__answer p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    font-size: var(--text-sm);
+  }
+
+  /* CTA */
+  .faq-cta {
+    text-align: center;
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .faq-cta p {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+</style>

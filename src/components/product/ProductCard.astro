@@ -1,0 +1,144 @@
+---
+interface Props {
+  product: {
+    id: string;
+    slug: string;
+    name: string;
+    price: number;
+    currency: string;
+    shortDescription: string;
+    image: string;
+    color: string;
+    weight: number;
+  };
+}
+
+const { product } = Astro.props;
+const formattedPrice = new Intl.NumberFormat('en-IE', {
+  style: 'currency',
+  currency: product.currency,
+}).format(product.price);
+---
+
+<div class="product-card group">
+  <a href={`/products/${product.slug}`} class="product-card__image-link">
+    <div class="product-card__image-wrapper">
+      <img src={product.image} alt={product.name} width="400" height="500" loading="lazy" class="product-card__image" />
+    </div>
+  </a>
+  <div class="product-card__meta">
+    <div class="product-card__header">
+      <a href={`/products/${product.slug}`}>
+        <h3 class="product-card__name">{product.name}</h3>
+      </a>
+      <span class="product-card__price">{formattedPrice}</span>
+    </div>
+    <p class="product-card__desc">{product.shortDescription}</p>
+    <button
+      class="snipcart-add-item product-card__btn"
+      data-item-id={product.id}
+      data-item-name={product.name}
+      data-item-price={product.price}
+      data-item-url={`/products/${product.slug}`}
+      data-item-image={product.image}
+      data-item-description={product.shortDescription}
+      data-item-weight={product.weight}
+      data-item-quantity="1"
+    >
+      Add to Cart
+    </button>
+  </div>
+</div>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .product-card__image-link { display: block; }
+
+  .product-card__image-wrapper {
+    aspect-ratio: 3 / 4;
+    background: var(--color-surface-low);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    margin-bottom: var(--space-5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3);
+  }
+
+  .product-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover .product-card__image {
+    transform: scale(1.05);
+  }
+
+  .product-card__meta {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .product-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-2);
+    gap: var(--space-3);
+  }
+
+  .product-card__name {
+    font-family: var(--font-headline);
+    font-weight: normal;
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+  }
+
+  .product-card__price {
+    font-family: var(--font-headline);
+    font-weight: normal;
+    font-size: var(--text-base);
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+
+  .product-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-tertiary);
+    opacity: 0.7;
+    line-height: 1.5;
+  }
+
+  .product-card__btn {
+    width: 100%;
+    padding: var(--space-3) 0;
+    margin-top: auto;
+    background: var(--color-tertiary);
+    color: var(--color-on-tertiary);
+    font-family: var(--font-headline);
+    font-weight: normal;
+    font-size: var(--text-base);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-base);
+  }
+
+  .product-card__btn:hover {
+    background: var(--color-primary);
+  }
+</style>

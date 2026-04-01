@@ -1,0 +1,41 @@
+---
+interface Props {
+  image: string;
+  name: string;
+  color: string;
+}
+
+const { image, name, color } = Astro.props;
+---
+
+<div class="gallery" style={`--product-color: ${color}`}>
+  <div class="gallery__main">
+    <img
+      src={image}
+      alt={name}
+      width="600"
+      height="900"
+      class="gallery__image"
+    />
+  </div>
+</div>
+
+<style>
+  .gallery__main {
+    background-color: var(--color-surface-low);
+    border-radius: var(--radius-2xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-7);
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+  }
+
+  .gallery__image {
+    width: 75%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.15));
+  }
+</style>

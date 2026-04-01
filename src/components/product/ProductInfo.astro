@@ -1,0 +1,248 @@
+---
+interface Props {
+  product: {
+    id: string;
+    slug: string;
+    name: string;
+    price: number;
+    currency: string;
+    description: string;
+    shortDescription: string;
+    image: string;
+    color: string;
+    weight: number;
+    ingredients: string;
+    howToUse: string;
+    nutritionalInfo: string;
+  };
+}
+
+const { product } = Astro.props;
+const formattedPrice = new Intl.NumberFormat('en-IE', {
+  style: 'currency',
+  currency: product.currency,
+}).format(product.price);
+---
+
+<div class="product-info">
+  <h1 class="product-info__name">{product.name}</h1>
+  <p class="product-info__price">{formattedPrice}</p>
+  <p class="product-info__description">{product.description}</p>
+
+  <!-- Quantity + Add to Cart -->
+  <div class="product-info__actions">
+    <div class="product-info__quantity">
+      <label for="quantity" class="visually-hidden">Quantity</label>
+      <button class="product-info__qty-btn" data-qty-decrease aria-label="Decrease quantity">−</button>
+      <input
+        type="number"
+        id="quantity"
+        name="quantity"
+        value="1"
+        min="1"
+        max="10"
+        class="product-info__qty-input"
+        data-qty-input
+      />
+      <button class="product-info__qty-btn" data-qty-increase aria-label="Increase quantity">+</button>
+    </div>
+
+    <button
+      class="snipcart-add-item btn btn-primary btn-lg product-info__cart-btn"
+      data-item-id={product.id}
+      data-item-name={product.name}
+      data-item-price={product.price}
+      data-item-url={`/products/${product.slug}`}
+      data-item-image={product.image}
+      data-item-description={product.shortDescription}
+      data-item-weight={product.weight}
+      data-item-quantity="1"
+      data-item-max-quantity="10"
+    >
+      Add to Cart
+    </button>
+  </div>
+
+  <!-- Product details accordion -->
+  <div class="product-info__details">
+    <details class="product-info__accordion" open>
+      <summary class="product-info__accordion-heading">Ingredients</summary>
+      <div class="product-info__accordion-content">
+        <p>{product.ingredients}</p>
+      </div>
+    </details>
+
+    <details class="product-info__accordion">
+      <summary class="product-info__accordion-heading">How to Use</summary>
+      <div class="product-info__accordion-content">
+        <p>{product.howToUse}</p>
+      </div>
+    </details>
+
+    <details class="product-info__accordion">
+      <summary class="product-info__accordion-heading">Nutritional Information</summary>
+      <div class="product-info__accordion-content">
+        <p>{product.nutritionalInfo}</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<script>
+  // Quantity stepper
+  document.querySelectorAll('[data-qty-decrease]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const input = btn.parentElement?.querySelector('[data-qty-input]') as HTMLInputElement;
+      if (input && Number(input.value) > 1) {
+        input.value = String(Number(input.value) - 1);
+        updateSnipcartQty(input);
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-qty-increase]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const input = btn.parentElement?.querySelector('[data-qty-input]') as HTMLInputElement;
+      if (input && Number(input.value) < 10) {
+        input.value = String(Number(input.value) + 1);
+        updateSnipcartQty(input);
+      }
+    });
+  });
+
+  function updateSnipcartQty(input: HTMLInputElement) {
+    const addBtn = document.querySelector('.snipcart-add-item') as HTMLElement;
+    if (addBtn) {
+      addBtn.dataset.itemQuantity = input.value;
+    }
+  }
+</script>
+
+<style>
+  .product-info__name {
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-3);
+  }
+
+  .product-info__price {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-5);
+  }
+
+  .product-info__description {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: var(--space-6);
+  }
+
+  /* Actions */
+  .product-info__actions {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    margin-bottom: var(--space-7);
+    flex-wrap: wrap;
+  }
+
+  .product-info__cart-btn {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  /* Quantity stepper */
+  .product-info__quantity {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--color-outline-variant);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .product-info__qty-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+  }
+
+  .product-info__qty-btn:hover {
+    background-color: var(--color-gray-100);
+  }
+
+  .product-info__qty-input {
+    width: 48px;
+    height: 44px;
+    text-align: center;
+    border: none;
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-text);
+    background: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .product-info__qty-input::-webkit-inner-spin-button,
+  .product-info__qty-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Accordion */
+  .product-info__details {
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .product-info__accordion {
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .product-info__accordion-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) 0;
+    font-family: var(--font-headline);
+    font-size: var(--text-lg);
+    font-style: normal;
+    color: var(--color-on-surface);
+    cursor: pointer;
+    list-style: none;
+    letter-spacing: 0.02em;
+  }
+
+  .product-info__accordion-heading::-webkit-details-marker {
+    display: none;
+  }
+
+  .product-info__accordion-heading::after {
+    content: '+';
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+    transition: transform var(--transition-fast);
+  }
+
+  [open] .product-info__accordion-heading::after {
+    content: '−';
+  }
+
+  .product-info__accordion-content {
+    padding-bottom: var(--space-4);
+  }
+
+  .product-info__accordion-content p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    font-size: var(--text-sm);
+  }
+</style>
