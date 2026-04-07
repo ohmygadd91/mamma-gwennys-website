@@ -74,6 +74,31 @@ import products from '../data/products.json';
       </div>
     </div>
   </section>
+
+  <!-- Product Range -->
+  <section class="trade-products section">
+    <div class="container">
+      <div class="trade-products__header text-center">
+        <span class="label" style="color: var(--color-secondary);">What We Offer</span>
+        <h2 style="margin-top: var(--space-2);">OUR SEASONING RANGE</h2>
+        <p class="trade-products__subtitle">8 handcrafted blends, available in bulk quantities</p>
+      </div>
+      <div class="grid grid-4 trade-products__grid">
+        {products.map((product) => (
+          <div class="trade-product-card">
+            <div class="trade-product-card__image">
+              <img src={product.image} alt={product.name} width="400" height="500" loading="lazy" />
+            </div>
+            <h3 class="trade-product-card__name">{product.name}</h3>
+            <p class="trade-product-card__desc">{product.shortDescription}</p>
+          </div>
+        ))}
+      </div>
+      <p class="trade-products__footer text-center">
+        Available in 100g retail packs and bulk catering sizes. Custom quantities available on request.
+      </p>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -201,5 +226,64 @@ import products from '../data/products.json';
     font-size: var(--text-sm);
     color: var(--color-outline);
     margin: 0;
+  }
+
+  /* --- Product Range --- */
+  .trade-products__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .trade-products__subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+  }
+
+  .trade-products__grid {
+    gap: var(--space-6);
+  }
+
+  .trade-product-card {
+    text-align: center;
+  }
+
+  .trade-product-card__image {
+    aspect-ratio: 3 / 4;
+    background: var(--color-surface-low);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3);
+  }
+
+  .trade-product-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform var(--transition-slow);
+  }
+
+  .trade-product-card:hover .trade-product-card__image img {
+    transform: scale(1.05);
+  }
+
+  .trade-product-card__name {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .trade-product-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .trade-products__footer {
+    margin-top: var(--space-8);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-text-muted);
   }
 </style>
