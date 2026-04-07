@@ -139,6 +139,19 @@ import products from '../data/products.json';
       </div>
     </div>
   </section>
+
+  <!-- Footer CTA -->
+  <section class="trade-cta">
+    <div class="trade-cta__pattern"></div>
+    <div class="trade-cta__overlay"></div>
+    <div class="container trade-cta__inner text-center">
+      <h2 style="color: var(--color-white);">READY TO STOCK<br/>MAMMA GWENNY'S?</h2>
+      <p style="color: rgba(255,255,255,0.85); font-size: var(--text-lg); margin: var(--space-5) 0 var(--space-7); font-weight: 500;">
+        Get in touch today and let's bring Caribbean flavour to your customers.
+      </p>
+      <a href="#trade-form" class="btn btn-primary btn-lg">Get In Touch</a>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -365,5 +378,69 @@ import products from '../data/products.json';
   .trade-benefit p {
     line-height: 1.7;
     color: var(--color-text-muted);
+  }
+
+  /* --- Footer CTA --- */
+  .trade-cta {
+    position: relative;
+    padding: var(--space-9) 0;
+    overflow: hidden;
+  }
+
+  .trade-cta__pattern {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/patterns/tropical-pattern.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    z-index: 0;
+  }
+
+  .trade-cta__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+  }
+
+  .trade-cta__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 1023px) {
+    .trade-hero__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-7);
+    }
+
+    .trade-hero__subtitle {
+      max-width: 100%;
+    }
+
+    .trade-benefits__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .trade-hero {
+      padding-top: 8rem;
+    }
+
+    .trade-hero__badges {
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .trade-form-card {
+      padding: var(--space-5);
+    }
+
+    .trade-benefits__grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
