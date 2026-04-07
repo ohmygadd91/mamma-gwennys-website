@@ -1,0 +1,205 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import products from '../data/products.json';
+---
+
+<BaseLayout
+  title="Trade Enquiries — Mamma Gwenny's"
+  description="Partner with Mamma Gwenny's for premium Caribbean seasonings. Bulk pricing, free samples, and Europe-wide delivery for restaurants, retailers, and distributors."
+>
+  <!-- Hero with Form -->
+  <section class="trade-hero" id="trade-form">
+    <div class="trade-hero__pattern"></div>
+    <div class="trade-hero__overlay"></div>
+    <div class="container trade-hero__inner">
+      <div class="trade-hero__content">
+        <span class="label" style="color: var(--color-secondary-container);">Trade Enquiries</span>
+        <h1 class="trade-hero__title">BRING AUTHENTIC CARIBBEAN FLAVOUR TO YOUR BUSINESS</h1>
+        <p class="trade-hero__subtitle">
+          Partner with Mamma Gwenny's for premium handcrafted seasonings. Bulk pricing available. Free sample packs for qualifying businesses.
+        </p>
+        <div class="trade-hero__badges">
+          <div class="trade-badge">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+            <span>Handcrafted Recipes</span>
+          </div>
+          <div class="trade-badge">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+            <span>Bulk Pricing</span>
+          </div>
+          <div class="trade-badge">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">redeem</span>
+            <span>Free Samples</span>
+          </div>
+        </div>
+      </div>
+      <div class="trade-hero__form-wrapper">
+        <div class="trade-form-card">
+          <h2 class="trade-form-card__title">Request Trade Pricing</h2>
+          <form class="trade-form" name="trade-enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="trade-enquiry" />
+            <p class="visually-hidden">
+              <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+            </p>
+            <div class="trade-form__field">
+              <label for="trade-name" class="trade-form__label">Name</label>
+              <input type="text" id="trade-name" name="name" required class="trade-form__input" placeholder="Your name" />
+            </div>
+            <div class="trade-form__field">
+              <label for="trade-business" class="trade-form__label">Business Name</label>
+              <input type="text" id="trade-business" name="business-name" required class="trade-form__input" placeholder="Your business" />
+            </div>
+            <div class="trade-form__field">
+              <label for="trade-email" class="trade-form__label">Email</label>
+              <input type="email" id="trade-email" name="email" required class="trade-form__input" placeholder="you@business.com" />
+            </div>
+            <div class="trade-form__field">
+              <label for="trade-type" class="trade-form__label">Business Type</label>
+              <select id="trade-type" name="business-type" required class="trade-form__input">
+                <option value="">Select your business type</option>
+                <option value="restaurant">Restaurant / Takeaway</option>
+                <option value="retailer">Retailer / Supermarket</option>
+                <option value="distributor">Distributor / Wholesaler</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="trade-form__field">
+              <label for="trade-message" class="trade-form__label">Message <span style="font-weight: 400; color: var(--color-outline);">(optional)</span></label>
+              <textarea id="trade-message" name="message" rows="3" class="trade-form__input trade-form__textarea" placeholder="Tell us about your needs..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Request Trade Pricing</button>
+            <p class="trade-form__note">We'll respond within 24 hours</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* --- Hero --- */
+  .trade-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 10rem 0 var(--space-9);
+  }
+
+  .trade-hero__pattern {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/patterns/tropical-pattern.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    z-index: 0;
+  }
+
+  .trade-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+  }
+
+  .trade-hero__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .trade-hero__title {
+    color: var(--color-white);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: var(--space-4) 0 var(--space-6);
+  }
+
+  .trade-hero__subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: var(--space-6);
+  }
+
+  .trade-hero__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .trade-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .trade-badge .material-symbols-outlined {
+    font-size: 20px;
+    color: var(--color-secondary-container);
+  }
+
+  /* --- Form Card --- */
+  .trade-form-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-7);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  }
+
+  .trade-form-card__title {
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-6);
+  }
+
+  .trade-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .trade-form__label {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .trade-form__input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: 2px solid var(--color-outline-variant);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    background: var(--color-white);
+    transition: border-color var(--transition-fast);
+  }
+
+  .trade-form__input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  .trade-form__textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .trade-form__note {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-outline);
+    margin: 0;
+  }
+</style>
