@@ -1,23 +1,30 @@
 ---
+interface Variant {
+  id: string;
+  label: string;
+  price: number;
+  weight: number;
+}
+
 interface Props {
   product: {
     id: string;
     slug: string;
     name: string;
-    price: number;
     currency: string;
     shortDescription: string;
     image: string;
     color: string;
-    weight: number;
+    variants: Variant[];
   };
 }
 
 const { product } = Astro.props;
-const formattedPrice = new Intl.NumberFormat('en-IE', {
+const minPrice = Math.min(...product.variants.map((v) => v.price));
+const formattedFromPrice = new Intl.NumberFormat('en-GB', {
   style: 'currency',
   currency: product.currency,
-}).format(product.price);
+}).format(minPrice);
 ---
 
 <div class="product-card group">
@@ -31,22 +38,10 @@ const formattedPrice = new Intl.NumberFormat('en-IE', {
       <a href={`/products/${product.slug}`}>
         <h3 class="product-card__name">{product.name}</h3>
       </a>
-      <span class="product-card__price">{formattedPrice}</span>
+      <span class="product-card__price">From {formattedFromPrice}</span>
     </div>
     <p class="product-card__desc">{product.shortDescription}</p>
-    <button
-      class="snipcart-add-item product-card__btn"
-      data-item-id={product.id}
-      data-item-name={product.name}
-      data-item-price={product.price}
-      data-item-url={`/products/${product.slug}`}
-      data-item-image={product.image}
-      data-item-description={product.shortDescription}
-      data-item-weight={product.weight}
-      data-item-quantity="1"
-    >
-      Add to Cart
-    </button>
+    <a href={`/products/${product.slug}`} class="product-card__btn">View Options</a>
   </div>
 </div>
 
@@ -122,6 +117,7 @@ const formattedPrice = new Intl.NumberFormat('en-IE', {
   }
 
   .product-card__btn {
+    display: block;
     width: 100%;
     padding: var(--space-3) 0;
     margin-top: auto;
@@ -130,6 +126,8 @@ const formattedPrice = new Intl.NumberFormat('en-IE', {
     font-family: var(--font-headline);
     font-weight: normal;
     font-size: var(--text-base);
+    text-align: center;
+    text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.01em;
     border: none;

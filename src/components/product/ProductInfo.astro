@@ -1,16 +1,22 @@
 ---
+interface Variant {
+  id: string;
+  label: string;
+  price: number;
+  weight: number;
+}
+
 interface Props {
   product: {
     id: string;
     slug: string;
     name: string;
-    price: number;
     currency: string;
     description: string;
     shortDescription: string;
     image: string;
     color: string;
-    weight: number;
+    variants: Variant[];
     ingredients: string;
     howToUse: string;
     nutritionalInfo: string;
@@ -18,16 +24,40 @@ interface Props {
 }
 
 const { product } = Astro.props;
-const formattedPrice = new Intl.NumberFormat('en-IE', {
+const defaultVariant = product.variants[0];
+const formatter = new Intl.NumberFormat('en-GB', {
   style: 'currency',
   currency: product.currency,
-}).format(product.price);
+});
+const formattedDefaultPrice = formatter.format(defaultVariant.price);
 ---
 
 <div class="product-info">
   <h1 class="product-info__name">{product.name}</h1>
-  <p class="product-info__price">{formattedPrice}</p>
+  <p class="product-info__price" data-price-display>{formattedDefaultPrice}</p>
   <p class="product-info__description">{product.description}</p>
+
+  <!-- Size picker -->
+  <fieldset class="product-info__sizes">
+    <legend class="product-info__sizes-label">Size</legend>
+    <div class="product-info__sizes-options" role="radiogroup">
+      {product.variants.map((v, i) => (
+        <label class="product-info__size-chip">
+          <input
+            type="radio"
+            name="variant"
+            value={v.id}
+            data-variant-id={v.id}
+            data-variant-label={v.label}
+            data-variant-price={v.price}
+            data-variant-weight={v.weight}
+            checked={i === 0}
+          />
+          <span>{v.label}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
 
   <!-- Quantity + Add to Cart -->
   <div class="product-info__actions">
@@ -49,15 +79,17 @@ const formattedPrice = new Intl.NumberFormat('en-IE', {
 
     <button
       class="snipcart-add-item btn btn-primary btn-lg product-info__cart-btn"
-      data-item-id={product.id}
-      data-item-name={product.name}
-      data-item-price={product.price}
+      data-add-to-cart
+      data-item-id={defaultVariant.id}
+      data-item-name={`${product.name} — ${defaultVariant.label}`}
+      data-item-price={defaultVariant.price}
       data-item-url={`/products/${product.slug}`}
       data-item-image={product.image}
       data-item-description={product.shortDescription}
-      data-item-weight={product.weight}
+      data-item-weight={defaultVariant.weight}
       data-item-quantity="1"
       data-item-max-quantity="10"
+      data-product-name={product.name}
     >
       Add to Cart
     </button>
@@ -89,33 +121,49 @@ const formattedPrice = new Intl.NumberFormat('en-IE', {
 </div>
 
 <script>
-  // Quantity stepper
+  const addBtn = document.querySelector('[data-add-to-cart]') as HTMLElement | null;
+  const priceDisplay = document.querySelector('[data-price-display]') as HTMLElement | null;
+  const qtyInput = document.querySelector('[data-qty-input]') as HTMLInputElement | null;
+
+  const formatter = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' });
+
+  function applyVariant(input: HTMLInputElement) {
+    if (!addBtn) return;
+    const id = input.dataset.variantId!;
+    const label = input.dataset.variantLabel!;
+    const price = Number(input.dataset.variantPrice);
+    const weight = input.dataset.variantWeight!;
+    const productName = addBtn.dataset.productName ?? '';
+
+    addBtn.dataset.itemId = id;
+    addBtn.dataset.itemName = `${productName} — ${label}`;
+    addBtn.dataset.itemPrice = String(price);
+    addBtn.dataset.itemWeight = weight;
+
+    if (priceDisplay) priceDisplay.textContent = formatter.format(price);
+  }
+
+  document.querySelectorAll<HTMLInputElement>('input[name="variant"]').forEach((input) => {
+    input.addEventListener('change', () => applyVariant(input));
+  });
+
   document.querySelectorAll('[data-qty-decrease]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const input = btn.parentElement?.querySelector('[data-qty-input]') as HTMLInputElement;
-      if (input && Number(input.value) > 1) {
-        input.value = String(Number(input.value) - 1);
-        updateSnipcartQty(input);
+      if (qtyInput && Number(qtyInput.value) > 1) {
+        qtyInput.value = String(Number(qtyInput.value) - 1);
+        if (addBtn) addBtn.dataset.itemQuantity = qtyInput.value;
       }
     });
   });
 
   document.querySelectorAll('[data-qty-increase]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const input = btn.parentElement?.querySelector('[data-qty-input]') as HTMLInputElement;
-      if (input && Number(input.value) < 10) {
-        input.value = String(Number(input.value) + 1);
-        updateSnipcartQty(input);
+      if (qtyInput && Number(qtyInput.value) < 10) {
+        qtyInput.value = String(Number(qtyInput.value) + 1);
+        if (addBtn) addBtn.dataset.itemQuantity = qtyInput.value;
       }
     });
   });
-
-  function updateSnipcartQty(input: HTMLInputElement) {
-    const addBtn = document.querySelector('.snipcart-add-item') as HTMLElement;
-    if (addBtn) {
-      addBtn.dataset.itemQuantity = input.value;
-    }
-  }
 </script>
 
 <style>
@@ -135,6 +183,66 @@ const formattedPrice = new Intl.NumberFormat('en-IE', {
     color: var(--color-text-muted);
     line-height: 1.8;
     margin-bottom: var(--space-6);
+  }
+
+  /* Size picker */
+  .product-info__sizes {
+    border: none;
+    padding: 0;
+    margin: 0 0 var(--space-6);
+  }
+
+  .product-info__sizes-label {
+    font-family: var(--font-headline);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+    padding: 0;
+  }
+
+  .product-info__sizes-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .product-info__size-chip {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .product-info__size-chip input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .product-info__size-chip span {
+    display: inline-block;
+    padding: var(--space-3) var(--space-5);
+    border: 2px solid var(--color-outline-variant);
+    border-radius: var(--radius-full);
+    font-family: var(--font-headline);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    transition: border-color var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .product-info__size-chip:hover span {
+    border-color: var(--color-primary);
+  }
+
+  .product-info__size-chip input:checked + span {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .product-info__size-chip input:focus-visible + span {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   /* Actions */
