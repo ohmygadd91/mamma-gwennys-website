@@ -150,5 +150,62 @@
     "howToUse": "Rub generously onto chicken, pork, or fish. Marinate overnight for the most authentic flavour. Best cooked on a barbecue or grill, but oven works too.",
     "nutritionalInfo": "Per 100g: Energy 270kJ, Fat 3g, Carbohydrates 18g, Protein 4g, Salt 28g",
     "featured": false
+  },
+  {
+    "id": "saturday-soup-mix",
+    "slug": "saturday-soup-mix",
+    "name": "Saturday Soup Mix",
+    "currency": "GBP",
+    "variants": [
+      { "id": "saturday-soup-mix-tub-100g", "label": "100g Tub", "price": 2.49, "weight": 100 },
+      { "id": "saturday-soup-mix-packet-100g", "label": "100g Packet", "price": 2.49, "weight": 100 },
+      { "id": "saturday-soup-mix-bulk-4kg", "label": "4.08kg Bulk", "price": 38.99, "weight": 4080 }
+    ],
+    "description": "Bring the warmth of a Caribbean Saturday into your kitchen. Mamma Gwenny's Saturday Soup Mix is a hearty seasoning blend crafted for the traditional weekend soup — rich, comforting, and full of authentic island character.",
+    "shortDescription": "Hearty & traditional",
+    "image": "https://placehold.co/1024x1024/c8651a/ffffff?text=Saturday+Soup+Mix",
+    "color": "#c8651a",
+    "ingredients": "Salt, garlic, onion, thyme, scallion, allspice, scotch bonnet pepper, ginger, parsley, black pepper",
+    "howToUse": "Add to chicken or beef soup along with yam, pumpkin, carrot, sweet potato and dumplings. Simmer slowly for 1–2 hours until everything is tender and the broth is rich.",
+    "nutritionalInfo": "Per 100g: Energy 240kJ, Fat 2g, Carbohydrates 14g, Protein 5g, Salt 32g",
+    "featured": false
+  },
+  {
+    "id": "vegetable-stock-mix",
+    "slug": "vegetable-stock-mix",
+    "name": "Vegetable Stock Mix",
+    "currency": "GBP",
+    "variants": [
+      { "id": "vegetable-stock-mix-tub-100g", "label": "100g Tub", "price": 2.49, "weight": 100 },
+      { "id": "vegetable-stock-mix-packet-100g", "label": "100g Packet", "price": 2.49, "weight": 100 },
+      { "id": "vegetable-stock-mix-bulk-4kg", "label": "4.08kg Bulk", "price": 38.99, "weight": 4080 }
+    ],
+    "description": "A plant-based stock mix with deep Caribbean character. Mamma Gwenny's Vegetable Stock Mix is the perfect base for soups, stews, rice, and gravies — packed with flavour, no animal products.",
+    "shortDescription": "Plant-based & savoury",
+    "image": "https://placehold.co/1024x1024/2d8d4a/ffffff?text=Vegetable+Stock+Mix",
+    "color": "#2d8d4a",
+    "ingredients": "Dried celery, carrot, onion, garlic, thyme, parsley, allspice, black pepper, salt, turmeric",
+    "howToUse": "Stir 1 teaspoon into a cup of boiling water for an instant vegetable stock, or use as a base for stews, gravies, rice, and grain dishes. Also works as a seasoning rub.",
+    "nutritionalInfo": "Per 100g: Energy 230kJ, Fat 1g, Carbohydrates 13g, Protein 4g, Salt 28g",
+    "featured": false
+  },
+  {
+    "id": "run-down-mix",
+    "slug": "run-down-mix",
+    "name": "Run Down Mix",
+    "currency": "GBP",
+    "variants": [
+      { "id": "run-down-mix-tub-100g", "label": "100g Tub", "price": 2.49, "weight": 100 },
+      { "id": "run-down-mix-packet-100g", "label": "100g Packet", "price": 2.49, "weight": 100 },
+      { "id": "run-down-mix-bulk-4kg", "label": "4.08kg Bulk", "price": 38.99, "weight": 4080 }
+    ],
+    "description": "Capture the soul of a Caribbean classic. Mamma Gwenny's Run Down Mix is a coconut-forward seasoning blend designed for the traditional 'rundown' — a slow-cooked coconut stew, typically with mackerel or salt fish, plantain, and tropical vegetables.",
+    "shortDescription": "Coconut-rich & savoury",
+    "image": "https://placehold.co/1024x1024/d4a050/3a2810?text=Run+Down+Mix",
+    "color": "#d4a050",
+    "ingredients": "Scotch bonnet pepper, thyme, scallion, garlic, allspice, black pepper, salt, ginger, paprika, onion",
+    "howToUse": "Stir into reduced coconut milk and simmer with mackerel, salt fish, or vegetables. Cook gently until the sauce thickens and the flavours have 'run down' into the dish.",
+    "nutritionalInfo": "Per 100g: Energy 255kJ, Fat 3g, Carbohydrates 15g, Protein 5g, Salt 30g",
+    "featured": false
   }
 ]
