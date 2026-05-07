@@ -61,22 +61,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <aside class="about-content__sidebar">
         <div class="about-values">
           <div class="about-value">
-            <span class="about-value__icon">🌿</span>
+            <span class="about-value__icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2c1 1.38 2 4.95 2 7.5 0 6.08-4.06 11.65-10.2 10.5Z" />
+                <path d="M2 21c0-3 1.85-5.36 5.08-6" />
+              </svg>
+            </span>
             <h3 class="about-value__title">Natural Ingredients</h3>
             <p>Only the finest herbs and spices, carefully sourced for authentic Caribbean flavour.</p>
           </div>
           <div class="about-value">
-            <span class="about-value__icon">🤲</span>
+            <span class="about-value__icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
+                <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
+                <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
+                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+              </svg>
+            </span>
             <h3 class="about-value__title">Handmade</h3>
             <p>Every batch is mixed by hand in small quantities to ensure quality and consistency.</p>
           </div>
           <div class="about-value">
-            <span class="about-value__icon">👨‍👩‍👧‍👦</span>
+            <span class="about-value__icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </span>
             <h3 class="about-value__title">Family Recipes</h3>
             <p>Authentic recipes passed down through generations of Caribbean cooking tradition.</p>
           </div>
           <div class="about-value">
-            <span class="about-value__icon">🌍</span>
+            <span class="about-value__icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                <path d="M2 12h20" />
+              </svg>
+            </span>
             <h3 class="about-value__title">Europe-Wide</h3>
             <p>Delivering authentic Caribbean flavour to kitchens across Europe.</p>
           </div>
@@ -173,9 +198,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .about-value__icon {
-    font-size: var(--text-3xl);
-    display: block;
-    margin-bottom: var(--space-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .about-value__icon svg {
+    width: 28px;
+    height: 28px;
   }
 
   .about-value__title {
