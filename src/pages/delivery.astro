@@ -4,39 +4,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const shippingZones = [
   {
     zone: 'United Kingdom',
-    standard: '3–5 business days',
-    cost: '€4.99',
-    free: 'Free over €50',
+    standard: '1–3 working days',
+    cost: '£4.99',
+    free: 'Free over £40',
   },
   {
-    zone: 'Ireland',
-    standard: '3–5 business days',
-    cost: '€5.99',
-    free: 'Free over €50',
+    zone: 'Republic of Ireland',
+    standard: '3–5 working days',
+    cost: '£9.99',
+    free: 'Free over £75',
   },
   {
-    zone: 'Western Europe',
-    standard: '5–8 business days',
-    cost: '€7.99',
-    free: 'Free over €50',
+    zone: 'Western Europe (FR, DE, BE, NL, LU)',
+    standard: '3–5 working days',
+    cost: '£12.99',
+    free: 'Free over £75',
   },
   {
-    zone: 'Northern Europe',
-    standard: '5–10 business days',
-    cost: '€8.99',
-    free: 'Free over €50',
+    zone: 'Southern Europe (ES, PT, IT, AT)',
+    standard: '4–7 working days',
+    cost: '£14.99',
+    free: 'Free over £75',
   },
   {
-    zone: 'Southern Europe',
-    standard: '7–12 business days',
-    cost: '€9.99',
-    free: 'Free over €50',
+    zone: 'Northern Europe (DK, SE, FI)',
+    standard: '4–7 working days',
+    cost: '£15.99',
+    free: 'Free over £75',
   },
   {
-    zone: 'Eastern Europe',
-    standard: '7–14 business days',
-    cost: '€10.99',
-    free: 'Free over €50',
+    zone: 'Eastern Europe (PL, CZ, HU, RO)',
+    standard: '5–8 working days',
+    cost: '£14.99',
+    free: 'Free over £75',
   },
 ];
 ---
@@ -68,8 +68,8 @@ const shippingZones = [
           </svg>
         </span>
         <div>
-          <strong>Free delivery on orders over €50</strong>
-          <p>Available to all European destinations</p>
+          <strong>Free UK delivery on orders over £40</strong>
+          <p>Free shipping to the rest of Europe on orders over £75</p>
         </div>
       </div>
 
@@ -119,8 +119,8 @@ const shippingZones = [
         <div class="delivery-info-card card">
           <h3>Customs & Duties</h3>
           <p>
-            All prices include VAT for EU countries. For deliveries outside the EU, local customs
-            charges may apply and are the responsibility of the customer.
+            All prices include UK VAT. Orders shipped to the EU and other international destinations
+            may incur local import duties or VAT on arrival, which are the responsibility of the customer.
           </p>
         </div>
 
